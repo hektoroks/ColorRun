@@ -11,7 +11,7 @@ import com.hekto.gdx.MyGdxGame;
 public class GameScreen implements Screen {
 
     MyGdxGame myGdxGame;
-    SpriteBatch batch;
+    //SpriteBatch batch;
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
