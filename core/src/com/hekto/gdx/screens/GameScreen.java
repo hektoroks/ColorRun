@@ -1,6 +1,7 @@
 package com.hekto.gdx.screens;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.hekto.gdx.MyGdxGame;
 
 /**
@@ -10,6 +11,7 @@ import com.hekto.gdx.MyGdxGame;
 public class GameScreen implements Screen {
 
     MyGdxGame myGdxGame;
+    SpriteBatch batch;
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
