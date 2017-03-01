@@ -11,12 +11,15 @@ public class WelcomeScreen implements Screen {
 	SpriteBatch batch;
 	Texture img;
 	MyGdxGame myGdxGame;
+	GameScreen gameScreen;
 
 
 	public WelcomeScreen (final MyGdxGame myGdxGame) {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
 		this.myGdxGame = myGdxGame;
+
+		gameScreen = new GameScreen(myGdxGame);
 	}
 
 	@Override
@@ -26,7 +29,13 @@ public class WelcomeScreen implements Screen {
 		batch.begin();
 		batch.draw(img, 0, 0);
 		batch.end();
+
+		if(Gdx.input.isTouched()) {
+			myGdxGame.setScreen(gameScreen);
+		}
 	}
+
+
 
 	@Override
 	public void show() {
