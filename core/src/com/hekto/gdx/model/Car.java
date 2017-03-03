@@ -1,9 +1,11 @@
 package com.hekto.gdx.model;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -11,6 +13,8 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.joints.WheelJoint;
+import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
 import com.hekto.gdx.screens.GameScreen;
 
 /**
@@ -22,6 +26,7 @@ public class Car {
     final static float RADIUSOFWHEEL = 3;
 
     private Body chassis, leftWheel, rightWheel;        // a lathatatlan elemek lenyegeben az auto kepe mogott
+    private WheelJoint leftAxis, rightAxis;             // joint the 3 bodies together
     SpriteBatch batch;
     public Sprite chassisSprite;
     Sprite leftWheelSprite, rightWheelSprite;
@@ -84,13 +89,59 @@ public class Car {
         // Right wheel
         rightWheel = gameScreen.world.createBody(bodyDef);
         rightWheel.createFixture(wheelFixtureDef);
+
+
+        // Joint - Connect bodies together / Left Axis Connecttion to chassis
+        WheelJointDef axisDef = new WheelJointDef();
+        axisDef.bodyA = chassis;
+        axisDef.bodyB = leftWheel;
+        axisDef.frequencyHz = 1.6f;
+        axisDef.localAnchorA.set(-8*.6f, -5f);      // body/chassis connection point
+        axisDef.localAxisA.set(0,1f);
+        axisDef.maxMotorTorque = 50/9*wheelShape.getRadius()*wheelShape.getRadius()*5500f;
+
+        leftAxis = (WheelJoint) gameScreen.world.createJoint(axisDef);
+
+
+        // Right Axix Connection to Chassis
+        axisDef.bodyB = rightWheel;
+        axisDef.localAnchorA.x *= -1;
+
+        rightAxis = (WheelJoint) gameScreen.world.createJoint(axisDef);
+
+        leftAxis.setSpringDampingRatio(0.7f);
+        rightAxis.setSpringDampingRatio(0.7f);
+
+        leftWheel.setBullet(true);
+        rightWheel.setBullet(true);
     }
 
 
     /**
-     * Game flow, redraw
+     * Game flow, Continous going, redraw
      */
     public void update() {
+
+        float w = Gdx.graphics.getWidth();
+        float h = Gdx.graphics.getHeight();
+
+        chassisSprite.setSize(16*w/gameScreen.camera.viewportWidth/gameScreen.camera.zoom, 4*h/gameScreen.camera.viewportHeight/gameScreen.camera.zoom);
+        chassisSprite.setOrigin(chassisSprite.getWidth()/2, chassisSprite.getHeight()/2);
+        chassisSprite.setPosition(w/2-chassisSprite.getWidth()/2, h/2-chassisSprite.getHeight()/2);
+        chassisSprite.setRotation(chassis.getAngle()*MathUtils.radiansToDegrees);
+
+        leftWheelSprite.setSize(RADIUSOFWHEEL*2*w/gameScreen.camera.viewportWidth/gameScreen.camera.zoom, RADIUSOFWHEEL*2*w/gameScreen.camera.viewportWidth/gameScreen.camera.zoom);
+        leftWheelSprite.setOrigin(leftWheelSprite.getWidth()/2, leftWheelSprite.getHeight()/2);
+        leftWheelSprite.setPosition(w/2-leftWheelSprite.getWidth()/2+(gameScreen.camera.position.x-leftWheel.getPosition().x)*-w/gameScreen.camera.viewportWidth/gameScreen.camera.zoom, h/2-leftWheelSprite.getHeight()/2+(gameScreen.camera.position.y-leftWheel.getPosition().y)*-h/gameScreen.camera.viewportHeight/gameScreen.camera.zoom);
+        leftWheelSprite.setRotation(leftWheel.getAngle()*MathUtils.radiansToDegrees);
+
+        rightWheelSprite.setSize(RADIUSOFWHEEL*2*w/gameScreen.camera.viewportWidth/gameScreen.camera.zoom, RADIUSOFWHEEL*2*w/gameScreen.camera.viewportWidth/gameScreen.camera.zoom);
+        rightWheelSprite.setOrigin(rightWheelSprite.getWidth()/2, rightWheelSprite.getHeight()/2);
+        rightWheelSprite.setPosition(w/2-rightWheelSprite.getWidth()/2+(gameScreen.camera.position.x-rightWheel.getPosition().x)*-w/gameScreen.camera.viewportWidth/gameScreen.camera.zoom, h/2-rightWheelSprite.getHeight()/2+((gameScreen.camera.position.y-rightWheel.getPosition().y)*-h/gameScreen.camera.viewportHeight/gameScreen.camera.zoom));
+        rightWheelSprite.setRotation(rightWheel.getAngle()*MathUtils.radiansToDegrees);
+
+
+        // Batch drawing
         batch.begin();
         chassisSprite.draw(batch);
         leftWheelSprite.draw(batch);
@@ -98,5 +149,39 @@ public class Car {
         batch.end();
     }
 
+
+    /**
+     *  Getters & Setters
+     */
+
+    public Body getChassis()
+    {
+        return chassis;
+    }
+
+    public Body getLeftWheel()
+    {
+        return leftWheel;
+    }
+
+    public Body getRightWheel()
+    {
+        return rightWheel;
+    }
+
+    public float getX()
+    {
+        return chassis.getPosition().x;
+    }
+
+    public float getY()
+    {
+        return chassis.getPosition().y;
+    }
+
+    public float getSpeed()
+    {
+        return chassis.getLinearVelocity().x;
+    }
     
 }
