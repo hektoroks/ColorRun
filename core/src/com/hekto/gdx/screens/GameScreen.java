@@ -4,11 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.hekto.gdx.MyGdxGame;
 import com.hekto.gdx.model.Car;
+import com.hekto.gdx.model.Ground;
 
 /**
  * Created by hekto on 26/02/2017.
@@ -19,8 +19,8 @@ public class GameScreen implements Screen {
     public MyGdxGame            myGdxGame;
     private float               width, height;
     public World                world;
-    private SpriteBatch         batch;
     private Car                 car;
+    private Ground              ground;
     public OrthographicCamera   camera;
     private float 				timeStep = 1/30f;
 
@@ -31,7 +31,9 @@ public class GameScreen implements Screen {
         world = new World(new Vector2(0, -10f), true);      // creating the box2D  world
         camera = new OrthographicCamera();
 
-        car = new Car(0f, 0f, 3, 1.5f, this);
+        ground = new Ground(1000, this);
+        car = new Car(110f, 0, 3, 1.5f, this);
+
     }
 
     @Override
@@ -53,11 +55,13 @@ public class GameScreen implements Screen {
 
         world.step(timeStep, 8, 3);
 
+
+        ground.draw();
         car.update();
     }
 
     @Override
-    public void resize(int width, int height) {
+    public void resize(int arg1, int arg2) {
         camera.viewportWidth = 60/height*width;
         camera.viewportHeight = 60;
     }
@@ -80,6 +84,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         world.dispose();
-        batch.dispose();
+        //batch.dispose();
     }
 }

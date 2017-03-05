@@ -1,6 +1,7 @@
 package com.hekto.gdx.model;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -19,18 +20,22 @@ import com.hekto.gdx.screens.GameScreen;
 
 /**
  * Created by hekto on 26/02/2017.
+ * InputAdapter for keyDown method
  */
 
-public class Car {
+public class Car extends InputAdapter {
 
-    final static float RADIUSOFWHEEL = 3;
+    private final static float RADIUSOFWHEEL = 3;
+    private final float motorSpeed = 150;
 
     private Body chassis, leftWheel, rightWheel;        // a lathatatlan elemek lenyegeben az auto kepe mogott
     private WheelJoint leftAxis, rightAxis;             // joint the 3 bodies together
+    GameScreen gameScreen;
     SpriteBatch batch;
     public Sprite chassisSprite;
-    Sprite leftWheelSprite, rightWheelSprite;
-    GameScreen gameScreen;
+    public Sprite leftWheelSprite;
+    public Sprite rightWheelSprite;
+
 
     public Car(float x, float y, float width, float height, GameScreen gameScreen) {
         this.gameScreen = gameScreen;
@@ -45,13 +50,13 @@ public class Car {
         FixtureDef wheelFixtureDef = new FixtureDef();
 
          // Set properties
-        chassisFixtureDef.density = 45;             // suruseg
+        chassisFixtureDef.density = 400;             // suruseg
 		chassisFixtureDef.friction = 1f;            // surlodas 0-1
-		chassisFixtureDef.restitution = .2f;        // rugalmassag 0-1
+		chassisFixtureDef.restitution = .8f;        // rugalmassag 0-1
 
         wheelFixtureDef.density = chassisFixtureDef.density * 2f;
 		wheelFixtureDef.friction = 10;
-		wheelFixtureDef.restitution = 0.3f;
+		wheelFixtureDef.restitution = 0.8f;
 
 
         // ehhez adjuk hozza majd a Body elemeket. A body dinamikus
@@ -106,6 +111,7 @@ public class Car {
         // Right Axix Connection to Chassis
         axisDef.bodyB = rightWheel;
         axisDef.localAnchorA.x *= -1;
+        axisDef.maxMotorTorque = 50/9*wheelShape.getRadius()*wheelShape.getRadius()*5500f;
 
         rightAxis = (WheelJoint) gameScreen.world.createJoint(axisDef);
 
@@ -114,6 +120,13 @@ public class Car {
 
         leftWheel.setBullet(true);
         rightWheel.setBullet(true);
+
+
+        // Folytonos menes
+        leftAxis.enableMotor(true);
+        rightAxis.enableMotor(true);
+        leftAxis.setMotorSpeed(-motorSpeed);
+        rightAxis.setMotorSpeed(-motorSpeed);
     }
 
 
@@ -183,5 +196,5 @@ public class Car {
     {
         return chassis.getLinearVelocity().x;
     }
-    
+
 }
