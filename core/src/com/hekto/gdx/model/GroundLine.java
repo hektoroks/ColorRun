@@ -56,10 +56,9 @@ public class GroundLine {
         body.createFixture(fixDef);
 
 
-        /// Tovabb
-        Pixmap pix = new Pixmap(128,128, Pixmap.Format.RGBA8888);
+        /// Tovabb;
         snowTexture = new Texture("snow.png");
-        groundTexture = new Texture(pix);
+        groundTexture = new Texture("snow.png");
 
         snowVertices = new float[]{100,0,100,100,0,100,0,0};
         triangles = new short[]
@@ -135,7 +134,5 @@ public class GroundLine {
             polygonSprite.draw(batch);
             batch.end();
         }
-
-
     }
 }

@@ -41,7 +41,7 @@ public class Car extends InputAdapter {
         this.gameScreen = gameScreen;
         batch = new SpriteBatch();
 
-        chassisSprite = new Sprite(new Texture("car.png"));
+        chassisSprite = new Sprite(new Texture("truck.png"));
         leftWheelSprite = new Sprite(new Texture("wheel.png"));
         rightWheelSprite = new Sprite(new Texture("wheel.png"));
 
