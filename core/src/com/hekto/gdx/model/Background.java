@@ -23,13 +23,14 @@ public class Background extends Actor {
     public Background() {
         w = Gdx.graphics.getWidth();
         h = Gdx.graphics.getHeight();
-        textureRegion = new TextureRegion(new Texture(Gdx.files.internal(Constants.BACKGROUND_IMAGE_PATH)));
+        textureRegion = new TextureRegion(new Texture("background2.png")); /*(Gdx.files.internal(Constants.BACKGROUND_IMAGE_PATH))*/
         textureRegionBounds1 = new Rectangle(0 - w / 2, 0, w, h);
         textureRegionBounds2 = new Rectangle(w / 2, 0, w, h);
     }
 
     @Override
     public void act(float delta) {
+        System.out.println("act");
         if (leftBoundsReached(delta)) {
             resetBounds();
         } else {
@@ -39,9 +40,11 @@ public class Background extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        //batch.begin();
         super.draw(batch, parentAlpha);
         batch.draw(textureRegion, textureRegionBounds1.x, textureRegionBounds1.y, w, h);
         batch.draw(textureRegion, textureRegionBounds2.x, textureRegionBounds2.y, w, h);
+        //batch.end();
     }
 
     private boolean leftBoundsReached(float delta) {

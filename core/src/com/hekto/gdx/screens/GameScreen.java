@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.hekto.gdx.MyGdxGame;
 import com.hekto.gdx.model.Background;
 import com.hekto.gdx.model.Car;
@@ -37,6 +38,7 @@ public class GameScreen extends Stage implements Screen {
         camera = new OrthographicCamera();
         batch = new SpriteBatch();
 
+
         ground = new Ground(2000, this);
         car = new Car(110f, -50, 3, 1.5f, this);
 
@@ -48,16 +50,20 @@ public class GameScreen extends Stage implements Screen {
 
     @Override
     public void render(float delta) {
+
         float framesPerSecond = Gdx.graphics.getFramesPerSecond();
         System.out.println(framesPerSecond + " fps/ X: "+car.getX() + "Y: "+ car.getY());
+        setUpBackground();
         Gdx.graphics.getGL20().glClearColor(0, 0.4f, 0.7f, 0);
+        setUpBackground();
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 
         // background // Figyelem (a hatterkep y = 50 re van allitva)
        // batch.begin();
      //   batch.draw(new Texture("background2.png"), 0, 50,Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
       //  batch.end();
-        setUpBackground();
+        //setUpBackground();
 
         camera.position.x = car.getX();
         camera.position.y = car.getY();
