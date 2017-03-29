@@ -20,13 +20,14 @@ import com.hekto.gdx.screens.GameScreen;
 
 /**
  * Created by hekto on 26/02/2017.
- * InputAdapter for keyDown method
+ * InputAdapter for keyDown method(override what you are interested)
  */
 
 public class Car extends InputAdapter {
 
     private final static float RADIUSOFWHEEL = 3;
-    private final float motorSpeed = 150;
+    private final float motorSpeed = 5;
+    private boolean touch = false;
 
     private Body chassis, leftWheel, rightWheel;        // a lathatatlan elemek lenyegeben az auto kepe mogott
     private WheelJoint leftAxis, rightAxis;             // joint the 3 bodies together
@@ -35,11 +36,18 @@ public class Car extends InputAdapter {
     public Sprite chassisSprite;
     public Sprite leftWheelSprite;
     public Sprite rightWheelSprite;
-
+    Texture yellow, violet, pink, blue;
+    int colorCounter = 0; //which color comes
 
     public Car(float x, float y, float width, float height, GameScreen gameScreen) {
         this.gameScreen = gameScreen;
         batch = new SpriteBatch();
+
+        // The different textures for car chassis
+        yellow = new Texture("truck_yellow.png");
+        violet = new Texture("truck_violet.png");
+        pink = new Texture("truck_pink.png");
+        blue = new Texture("truck_blue.png");
 
         chassisSprite = new Sprite(new Texture("truck.png"));
         leftWheelSprite = new Sprite(new Texture("wheel.png"));
@@ -138,6 +146,19 @@ public class Car extends InputAdapter {
         float w = Gdx.graphics.getWidth();
         float h = Gdx.graphics.getHeight();
 
+        if(touch) {
+           if(colorCounter%4 == 1) {
+               chassisSprite.setRegion(yellow);
+           } else if(colorCounter%4 == 2) {
+               chassisSprite.setRegion(violet);
+           } else if(colorCounter%4 == 3) {
+               chassisSprite.setRegion(pink);
+           } else {
+               chassisSprite.setRegion(blue);
+           }
+            }
+
+
         chassisSprite.setSize(16*w/gameScreen.camera.viewportWidth/gameScreen.camera.zoom, 4*h/gameScreen.camera.viewportHeight/gameScreen.camera.zoom);
         chassisSprite.setOrigin(chassisSprite.getWidth()/2, chassisSprite.getHeight()/2);
         chassisSprite.setPosition(w/2-chassisSprite.getWidth()/2, h/2-chassisSprite.getHeight()/2);
@@ -162,6 +183,31 @@ public class Car extends InputAdapter {
         batch.end();
     }
 
+    /**
+     * @param x
+     * @param y
+     * @param arg2
+     * @param button
+     * @return a boolean, if it was clicked or not
+     */
+    @Override
+    public boolean touchDown(int x, int y, int arg2, int button)
+    {
+        if(button == Input.Buttons.LEFT)
+        {
+            touch = true;
+            colorCounter++;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int arg0, int arg1, int arg2, int button)
+    {
+        touch = false;
+        return false;
+    }
 
     /**
      *  Getters & Setters
@@ -197,4 +243,7 @@ public class Car extends InputAdapter {
         return chassis.getLinearVelocity().x;
     }
 
+    public Sprite getChassisSprite() {
+        return chassisSprite;
+    }
 }

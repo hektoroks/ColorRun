@@ -60,7 +60,7 @@ public class Background {
     private void updateXBounds(float delta) {
         textureRegionBounds1.x = (delta * speed) + (screenIteration * width);
         textureRegionBounds2.x = (delta * speed) + (screenIteration * width) + width;
-        System.out.println(textureRegionBounds1.x);
+ //       System.out.println(textureRegionBounds1.x);
     }
 
     /**
@@ -68,12 +68,11 @@ public class Background {
      * @param delta
      */
     private void resetBounds(float delta) {
-        System.out.println("reset");
+ //       System.out.println("reset");
         screenIteration += 1;
-        System.out.println(textureRegionBounds2);
-        System.out.println(screenIteration);
+ //       System.out.println(textureRegionBounds2);
+ //       System.out.println(screenIteration);
         textureRegionBounds1 = textureRegionBounds2;
         textureRegionBounds2 = new Rectangle(width + 1100, 0, width, height);
     }
-
 }
