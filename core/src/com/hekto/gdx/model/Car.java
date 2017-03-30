@@ -25,8 +25,8 @@ import com.hekto.gdx.screens.GameScreen;
 
 public class Car extends InputAdapter {
 
-    private final static float RADIUSOFWHEEL = 3;
-    private final float motorSpeed = 5;
+    private final static float RADIUSOFWHEEL = 2;
+    private final float motorSpeed = 6;
     private boolean touch = false;
 
     private Body chassis, leftWheel, rightWheel;        // a lathatatlan elemek lenyegeben az auto kepe mogott
@@ -109,7 +109,7 @@ public class Car extends InputAdapter {
         axisDef.bodyA = chassis;
         axisDef.bodyB = leftWheel;
         axisDef.frequencyHz = 1.6f;
-        axisDef.localAnchorA.set(-8*.6f, -5f);      // body/chassis connection point
+        axisDef.localAnchorA.set(-8*.6f, -3f);      // body/chassis connection point
         axisDef.localAxisA.set(0,1f);
         axisDef.maxMotorTorque = 50/9*wheelShape.getRadius()*wheelShape.getRadius()*5500f;
 
@@ -148,13 +148,13 @@ public class Car extends InputAdapter {
 
         if(touch) {
            if(colorCounter%4 == 1) {
-               chassisSprite.setRegion(yellow);
-           } else if(colorCounter%4 == 2) {
-               chassisSprite.setRegion(violet);
-           } else if(colorCounter%4 == 3) {
-               chassisSprite.setRegion(pink);
-           } else {
                chassisSprite.setRegion(blue);
+           } else if(colorCounter%4 == 2) {
+               chassisSprite.setRegion(pink);
+           } else if(colorCounter%4 == 3) {
+               chassisSprite.setRegion(violet);
+           } else {
+               chassisSprite.setRegion(yellow);
            }
             }
 

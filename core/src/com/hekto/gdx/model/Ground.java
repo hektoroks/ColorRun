@@ -71,7 +71,7 @@ public class Ground {
 
                 isSwitchOnThisPosition = Integer.parseInt(((t[4].trim()).toString()));
                 if(isSwitchOnThisPosition == 1) {
-                    colorSwitches.add(new ColorSwitch(x1, y1+1, 100, 100, gameScreen));
+                    colorSwitches.add(new ColorSwitch(x1, y1-10, 100, 100, gameScreen));
                     //System.out.println(isSwitchOnThisPosition);
                 }
             }

@@ -18,7 +18,7 @@ import com.hekto.gdx.screens.GameScreen;
 
 public class ColorSwitch {
 
-    private static final int RADIUSOFSWITCH = 12;
+    private static final int RADIUSOFSWITCH = 14;
     private GameScreen gameScreen;
     private float width, height;
     private float hx, hy;
@@ -40,7 +40,7 @@ public class ColorSwitch {
 
         //  body definition
         BodyDef bodyDef = new BodyDef();
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set(x, y);
 
         FixtureDef switchFixtureDef =  new FixtureDef();
