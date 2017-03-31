@@ -87,6 +87,7 @@ public class ColorSwitch {
         switchSprite.setOrigin(switchSprite.getWidth() / 2, switchSprite.getHeight() / 2);
         switchSprite.setPosition(width / 2 - switchSprite.getWidth() / 2 + (gameScreen.camera.position.x - switchBody.getPosition().x) * -width / gameScreen.camera.viewportWidth / gameScreen.camera.zoom, height / 2 - switchSprite.getHeight() / 2 + ((gameScreen.camera.position.y - switchBody.getPosition().y) * -height / gameScreen.camera.viewportHeight / gameScreen.camera.zoom));
         switchSprite.setRotation(switchBody.getAngle() * MathUtils.radiansToDegrees);
+
         if (!colorpart.equals(getColor())) {
             if (getColor().equals(color.VIOLET)) {
                 switchSpritepiece.setTexture(new Texture("part_v.png"));
@@ -135,11 +136,11 @@ public class ColorSwitch {
         angle = angle % 360;
         // System.out.println(angle);
         color = color.VIOLET;
-        if (angle >= 45 && angle < 135)
+        if (angle >= 0 && angle < 90)
             color = color.YELLOW;
-        else if (angle >= 135 && angle < 225)
+        else if (angle >= 90 && angle < 180)
             color = color.BLUE;
-        else if (angle >= 225 && angle < 315)
+        else if (angle >= 180 && angle < 270)
             color = color.PINK;
 
         return color;

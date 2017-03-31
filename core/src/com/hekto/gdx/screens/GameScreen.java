@@ -36,7 +36,6 @@ public class GameScreen extends Stage implements Screen {
     public boolean debugRend = false;
     private float timeStep = 1 / 30f;
     private Background background;
-    private ColorSwitch colorSwitch;
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
@@ -50,7 +49,6 @@ public class GameScreen extends Stage implements Screen {
         camera.zoom += 0.7;
         ground = new Ground(2000, this);
         car = new Car(110f, -50, 3, 1.5f, this);
-        colorSwitch = new ColorSwitch(500, 50, 20, 20, this);
 
         Gdx.input.setInputProcessor(new InputMultiplexer(new GameController(this), car)); // setting control
 
