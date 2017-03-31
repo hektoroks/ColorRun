@@ -25,12 +25,12 @@ public class Ground {
     private static final String INPUT = "Ground.txt";
     Random rand;
 
-    public Ground( int distance, GameScreen gameScreen) {
+    public Ground(int distance, GameScreen gameScreen) {
         this.gameScreen = gameScreen;
         this.distance = distance;
         rand = new Random();
         groundLines = new ArrayList<GroundLine>();
-        colorSwitches =  new ArrayList<ColorSwitch>();
+        colorSwitches = new ArrayList<ColorSwitch>();
 
         //createLinearRoad(distance);
         createSinusRoad();
@@ -40,7 +40,7 @@ public class Ground {
      * Creates a Linear Road
      */
     private void createLinearRoad(int distance) {
-        groundLines.add(new GroundLine(-200,-10, distance,-10,gameScreen));
+        groundLines.add(new GroundLine(-200, -10, distance, -10, gameScreen));
     }
 
 
@@ -48,7 +48,6 @@ public class Ground {
      * Creates Parabolic Road, Reads from file, x,y coordinates
      */
     private void createSinusRoad() {
-
 
 
         String line;
@@ -60,8 +59,7 @@ public class Ground {
             // reading the ground from file
             float x1, x2, y1, y2;
             int isSwitchOnThisPosition;
-            while((line = in.readLine()) != null)
-            {
+            while ((line = in.readLine()) != null) {
                 String[] t = line.split(" ");
                 x1 = Float.parseFloat((t[0].trim()).toString());
                 y1 = Float.valueOf((t[1].trim()).toString());
@@ -70,8 +68,8 @@ public class Ground {
                 groundLines.add(new GroundLine(x1, y1, x2, y2, gameScreen));
 
                 isSwitchOnThisPosition = Integer.parseInt(((t[4].trim()).toString()));
-                if(isSwitchOnThisPosition == 1) {
-                    colorSwitches.add(new ColorSwitch(x1, y1-10, 100, 100, gameScreen));
+                if (isSwitchOnThisPosition == 1) {
+                    colorSwitches.add(new ColorSwitch(x1, y1 - 10, 100, 100, gameScreen));
                     //System.out.println(isSwitchOnThisPosition);
                 }
             }
@@ -83,13 +81,14 @@ public class Ground {
     }
 
     // draw the ground and and draw the colorswitches
-    public void draw() {
-        for (GroundLine g :groundLines) {
+    public void draw(float x) {
+        for (GroundLine g : groundLines) {
             g.draw(distance);
         }
 
-        for(ColorSwitch c : colorSwitches) {
-            c.draw();
+        for (ColorSwitch c : colorSwitches) {
+            if ((c.getXpos() > x - 100) && (c.getXpos() < x + 100))
+                c.draw();
         }
     }
 }

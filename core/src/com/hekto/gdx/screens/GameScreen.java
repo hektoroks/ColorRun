@@ -25,19 +25,19 @@ import com.hekto.gdx.model.Ground;
 
 public class GameScreen extends Stage implements Screen {
 
-    public MyGdxGame            myGdxGame;
-    private SpriteBatch         batch;
-    private float               width, height;
-    public World                world;
-    private Car                 car;
-    private Ground              ground;
-    public OrthographicCamera   camera;
-    private Box2DDebugRenderer  debugRenderer;
-    public boolean              debugRend = false;
-    private float 				timeStep = 1/30f;
-    private Background          background;
-    private ColorSwitch         colorSwitch;
-    
+    public MyGdxGame myGdxGame;
+    private SpriteBatch batch;
+    private float width, height;
+    public World world;
+    private Car car;
+    private Ground ground;
+    public OrthographicCamera camera;
+    private Box2DDebugRenderer debugRenderer;
+    public boolean debugRend = false;
+    private float timeStep = 1 / 30f;
+    private Background background;
+    private ColorSwitch colorSwitch;
+
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
         width = Gdx.graphics.getWidth();
@@ -47,10 +47,11 @@ public class GameScreen extends Stage implements Screen {
         camera = new OrthographicCamera();
         batch = new SpriteBatch();
         background = new Background();
-
+        camera.zoom += 0.7;
         ground = new Ground(2000, this);
         car = new Car(110f, -50, 3, 1.5f, this);
-        colorSwitch = new ColorSwitch(500, 50, 20,20,this);
+        colorSwitch = new ColorSwitch(500, 50, 20, 20, this);
+
         Gdx.input.setInputProcessor(new InputMultiplexer(new GameController(this), car)); // setting control
 
     }
@@ -68,8 +69,8 @@ public class GameScreen extends Stage implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
-        camera.position.x = car.getX();
-        camera.position.y = car.getY();
+        camera.position.x = car.getX() + 50;
+        camera.position.y = car.getY() + 25;
         //if(camera.zoom<Math.abs(car.getSpeed())/15+0.5) camera.zoom+=0.01;
         //if(camera.zoom>Math.abs(car.getSpeed())/15+0.5) camera.zoom-=0.003;
         camera.update();
@@ -82,18 +83,19 @@ public class GameScreen extends Stage implements Screen {
         background.draw();
 
 
-        if(debugRend) {
+        if (debugRend) {
             debugRenderer.render(world, camera.combined);
         } else {
-            ground.draw();
+            ground.draw(car.getX());
             car.update();
             //colorSwitch.draw();
         }
+
     }
 
     @Override
     public void resize(int arg1, int arg2) {
-        camera.viewportWidth = 60/height*width;
+        camera.viewportWidth = 60 / height * width;
         camera.viewportHeight = 60;
     }
 
