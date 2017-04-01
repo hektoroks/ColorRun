@@ -5,25 +5,24 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.hekto.gdx.MyGdxGame;
 import com.hekto.gdx.controller.GameController;
 import com.hekto.gdx.model.Background;
 import com.hekto.gdx.model.Car;
-import com.hekto.gdx.model.ColorSwitch;
 import com.hekto.gdx.model.Ground;
+import com.hekto.gdx.model.TextBox;
+import com.sun.org.apache.xpath.internal.operations.String;
 
 /**
  * Created by hekto on 26/02/2017.
  */
 
-public class GameScreen extends Stage implements Screen {
+public class GameScreen implements Screen {
 
     public MyGdxGame myGdxGame;
     private SpriteBatch batch;
@@ -36,6 +35,9 @@ public class GameScreen extends Stage implements Screen {
     public boolean debugRend = false;
     private float timeStep = 1 / 30f;
     private Background background;
+
+    private TextBox scoreBox;
+    private int score;
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
@@ -50,8 +52,13 @@ public class GameScreen extends Stage implements Screen {
         ground = new Ground(2000, this);
         car = new Car(110f, -50, 3, 1.5f, this);
 
+
         Gdx.input.setInputProcessor(new InputMultiplexer(new GameController(this), car)); // setting control
 
+        // setting up score
+        score = 0;
+        scoreBox = new TextBox(Gdx.graphics.getWidth() - 30 , Gdx.graphics.getHeight() - 30);
+        scoreBox.setColor(1, 1, 1, 0.3f);
     }
 
     @Override
@@ -80,14 +87,20 @@ public class GameScreen extends Stage implements Screen {
         background.act(car.getX());
         background.draw();
 
+        /* Setting score up */
+        scoreBox.setStr(score + "");
+        scoreBox.draw(delta);
 
+        /* Render  and draw car and ground (press ctrl to see) */
         if (debugRend) {
             debugRenderer.render(world, camera.combined);
         } else {
-            ground.draw(car.getX());
+            ground.draw(car);
             car.update();
-            //colorSwitch.draw();
+            ground.checkCollision(car);
         }
+
+
 
     }
 
@@ -117,4 +130,6 @@ public class GameScreen extends Stage implements Screen {
         world.dispose();
         batch.dispose();
     }
+
+
 }

@@ -28,7 +28,7 @@ public class Car extends InputAdapter {
     private final static float RADIUSOFWHEEL = 2;
     private final float motorSpeed = 12;//6;
     private boolean touch = false;
-
+    float w,h;
     private Body chassis, leftWheel, rightWheel;        // a lathatatlan elemek lenyegeben az auto kepe mogott
     private WheelJoint leftAxis, rightAxis;             // joint the 3 bodies together
     GameScreen gameScreen;
@@ -42,6 +42,9 @@ public class Car extends InputAdapter {
     public Car(float x, float y, float width, float height, GameScreen gameScreen) {
         this.gameScreen = gameScreen;
         batch = new SpriteBatch();
+
+        w = Gdx.graphics.getWidth();
+        h = Gdx.graphics.getHeight();
 
         // The different textures for car chassis
         yellow = new Texture("truck_yellow.png");
@@ -143,9 +146,6 @@ public class Car extends InputAdapter {
      */
     public void update() {
 
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
-
         if (touch) {
             if (colorCounter % 4 == 1) {
                 chassisSprite.setRegion(blue);
@@ -240,5 +240,11 @@ public class Car extends InputAdapter {
 
     public Sprite getChassisSprite() {
         return chassisSprite;
+    }
+
+
+    /* Meg */
+    public float getChassisWidth() {
+        return 2 * w / gameScreen.camera.viewportWidth / gameScreen.camera.zoom;
     }
 }

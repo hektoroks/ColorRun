@@ -1,11 +1,16 @@
 apply plugin: "java"
-
 sourceCompatibility = 1.6
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-sourceSets.main.java.srcDirs = [ "src/" ]
-
-
+sourceSets.main.java.srcDirs = ["src/"]
 eclipse.project {
     name = appName + "-core"
+}
+dependencies {
+    compile files('res/gdx-backend-lwjgl-natives.jar')
+    compile files('res/gdx-backend-lwjgl.jar')
+    compile files('res/gdx-freetype-natives.jar')
+    compile files('res/gdx-freetype.jar')
+    compile files('res/gdx-natives.jar')
+    compile files('res/gdx-sources.jar')
+    compile files('res/gdx.jar')
 }

@@ -1,7 +1,9 @@
 package com.hekto.gdx;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Gdx;
+import com.hekto.gdx.States.GameStateManager;
+import com.hekto.gdx.screens.MenuScreen;
 import com.hekto.gdx.screens.WelcomeScreen;
 
 /**
@@ -9,8 +11,17 @@ import com.hekto.gdx.screens.WelcomeScreen;
  */
 
 public class MyGdxGame extends Game {
+
+    private GameStateManager gsm;
+
     @Override
     public void create() {
-        setScreen(new WelcomeScreen(this));
+        /*
+        gsm = new GameStateManager();
+        gsm.update(Gdx.graphics.getDeltaTime());
+        gsm.draw();
+        */
+        //setScreen(new WelcomeScreen(this));
+        setScreen(new MenuScreen(this));
     }
 }

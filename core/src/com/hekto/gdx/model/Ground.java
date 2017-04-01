@@ -81,14 +81,28 @@ public class Ground {
     }
 
     // draw the ground and and draw the colorswitches
-    public void draw(float x) {
+    public void draw(Car car) {
         for (GroundLine g : groundLines) {
             g.draw(distance);
         }
 
         for (ColorSwitch c : colorSwitches) {
-            if ((c.getXpos() > x - 100) && (c.getXpos() < x + 100))
+            if ((c.getXpos() > car.getX() - 100) && (c.getXpos() < car.getX() + 100))
                 c.draw();
+        }
+    }
+
+    /* Collison check */
+    public void checkCollision(Car car) {
+        float distance = 0;
+        for (ColorSwitch c : colorSwitches) {
+            distance = c.getXpos() - car.getX() - car.getChassisWidth();
+            if  ( (distance <= 1) && (distance > 0) ) {
+                System.out.println(c.getXpos() + "  =  " + car.getX());
+                c.setRotationVelocity(0);
+                // + meg 1 if, ha a auto elkeruli a kort, akkor a kor ujra forog
+            }
+
         }
     }
 }
