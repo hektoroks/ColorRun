@@ -16,12 +16,12 @@ public class MyGdxGame extends Game {
 
     @Override
     public void create() {
-        /*
+
         gsm = new GameStateManager();
         gsm.update(Gdx.graphics.getDeltaTime());
         gsm.draw();
-        */
+
         //setScreen(new WelcomeScreen(this));
-        setScreen(new MenuScreen(this));
+       // setScreen(new MenuScreen(this));
     }
 }

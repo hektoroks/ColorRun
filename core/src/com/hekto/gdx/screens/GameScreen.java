@@ -5,7 +5,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -16,7 +15,6 @@ import com.hekto.gdx.model.Background;
 import com.hekto.gdx.model.Car;
 import com.hekto.gdx.model.Ground;
 import com.hekto.gdx.model.TextBox;
-import com.sun.org.apache.xpath.internal.operations.String;
 
 /**
  * Created by hekto on 26/02/2017.
